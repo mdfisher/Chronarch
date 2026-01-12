@@ -3,7 +3,7 @@ name = "chronarch"
 version = "0.1.0"
 description = "Chronarch - Bitcoin price forecasting and trading intelligence platform"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 dependencies = [
     # Web framework
     "fastapi>=0.109.0",
@@ -14,8 +14,12 @@ dependencies = [
     "alembic>=1.13.0",
     # Data processing
     "pandas>=2.1.0",
-    "numpy>=1.26.0",
-    # ML
+    "numpy>=1.26.0,<2.0.0",
+    # ML - PyTorch (CUDA 12.x)
+    "torch>=2.5.0",
+    "torchvision>=0.20.0",
+    "torchaudio>=2.5.0",
+    # ML - Traditional
     "lightgbm>=4.2.0",
     "scikit-learn>=1.4.0",
     # HTTP client
@@ -27,7 +31,18 @@ dependencies = [
     # Utilities
     "structlog>=24.1.0",
     "python-dateutil>=2.8.0",
+    "ipykernel>=7.1.0",
 ]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+torchvision = { index = "pytorch-cu124" }
+torchaudio = { index = "pytorch-cu124" }
 
 [project.optional-dependencies]
 dev = [
@@ -38,6 +53,9 @@ dev = [
     "ruff>=0.1.0",
     "mypy>=1.8.0",
     "pre-commit>=3.6.0",
+    # Jupyter
+    "jupyterlab>=4.0.0",
+    "ipywidgets>=8.1.0",
 ]
 
 [build-system]
